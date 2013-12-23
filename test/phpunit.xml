@@ -15,8 +15,9 @@
 
 <testsuites>
 	<testsuite name="AstroZak">
-		<file>DateTimeTest.php</file>
 		<file>SwephTest.php</file>
+		<file>DTTest.php</file>
+		<file>PlanetHoursTest.php</file>
 	</testsuite>
 </testsuites>
 

@@ -12,32 +12,46 @@ class Sweph
 	const JUPITER = SE_JUPITER;
 	const SATURN = SE_SATURN;
 	
-	public function __construct($path)
+	private static $planets = array (  self::SUN => "SUN", self::MOON => "MOON",   
+									self::MERCURY => "MERCURY", self::VENUS => "VENUS",
+									self::MARS => "MARS", self::JUPITER => "JUPITER",
+									self::SATURN => "SATURN");
+									
+	public static function init($path)
 	{
 		swe_set_ephe_path($path);
 	}
 
-	public function calcRise($planet, Location $location, DateTime $dt)
+	public static function planetName($planet)
+	{
+		if (isset(self::$planets[$planet]))
+		{
+			return self::$planets[$planet];
+		}
+		throw new Exception("Incorrect planet number");
+	}
+	
+	public function calcRise($planet, Location $location, \DateTime $dt)
 	{
 		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_RISE);
 	}
 	
-	public function calcSet($planet, Location $location, DateTime $dt)
+	public function calcSet($planet, Location $location, \DateTime $dt)
 	{
 		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_SET);
 	}
 	
-	public function calcUpperMeridianTransit($planet, Location $location, DateTime $dt)
+	public function calcUpperMeridianTransit($planet, Location $location, \DateTime $dt)
 	{
 		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_MTRANSIT);
 	}
 	
-	public function calcLowerMeridianTransit($planet, Location $location, DateTime $dt)
+	public function calcLowerMeridianTransit($planet, Location $location, \DateTime $dt)
 	{
 		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_ITRANSIT);
 	}
 	
-	protected function calcRiseTrans($planet, Location $location, DateTime $dt, $rsmi)
+	protected function calcRiseTrans($planet, Location $location, \DateTime $dt, $rsmi)
 	{
 		$ret = null;
 		
@@ -51,14 +65,14 @@ class Sweph
 			$starname = '';
 		}
 		
-		$res = swe_rise_trans($dt->getJulianDay(), $planet, $starname, SEFLG_SWIEPH, $rsmi, 
+		$res = swe_rise_trans(DT::julianDay($dt), $planet, $starname, SEFLG_SWIEPH, $rsmi, 
 				$location->getLat(), $location->getLon(), $location->getHeight(), 1013.25, 10);
 				
 		if (isset($res["retflag"]) &&  $res["retflag"] == 0)
 		{
 			if (! empty($res["tret"][0]))
 			{
-				$ret = new DateTime($res["tret"][0]);
+				$ret = DT::dateTime($res["tret"][0]);
 			}
 		}
 		if (is_null($ret))
