@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+		bootstrap = "bootstrap.php"
+		backupGlobals="false"
+		backupStaticAttributes="false"
+		colors="true"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		processIsolation="false"
+		stopOnFailure="false"
+		syntaxCheck="false"
+>
+
+<testsuites>
+	<testsuite name="AstroZak">
+		<file>DateTimeTest.php</file>
+		<file>SwephTest.php</file>
+	</testsuite>
+</testsuites>
+
+<logging>
+	<log type="coverage-html" target="./coverage" charset="UTF-8"/>
+</logging>
+
+</phpunit>
