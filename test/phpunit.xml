@@ -18,6 +18,7 @@
 		<file>SwephTest.php</file>
 		<file>DTTest.php</file>
 		<file>PlanetHoursTest.php</file>
+		<file>TimePeriodTest.php</file>
 	</testsuite>
 </testsuites>
 

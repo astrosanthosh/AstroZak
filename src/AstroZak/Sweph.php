@@ -22,36 +22,27 @@ class Sweph
 		swe_set_ephe_path($path);
 	}
 
-	public static function planetName($planet)
+	public static function calcRise($planet, Location $location, \DateTime $dt)
 	{
-		if (isset(self::$planets[$planet]))
-		{
-			return self::$planets[$planet];
-		}
-		throw new Exception("Incorrect planet number");
+		return self::calcRiseTrans($planet, $location, $dt, SE_CALC_RISE);
 	}
 	
-	public function calcRise($planet, Location $location, \DateTime $dt)
+	public static function calcSet($planet, Location $location, \DateTime $dt)
 	{
-		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_RISE);
+		return self::calcRiseTrans($planet, $location, $dt, SE_CALC_SET);
 	}
 	
-	public function calcSet($planet, Location $location, \DateTime $dt)
+	public static function calcUpperMeridianTransit($planet, Location $location, \DateTime $dt)
 	{
-		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_SET);
+		return self::calcRiseTrans($planet, $location, $dt, SE_CALC_MTRANSIT);
 	}
 	
-	public function calcUpperMeridianTransit($planet, Location $location, \DateTime $dt)
+	public static function calcLowerMeridianTransit($planet, Location $location, \DateTime $dt)
 	{
-		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_MTRANSIT);
+		return self::calcRiseTrans($planet, $location, $dt, SE_CALC_ITRANSIT);
 	}
 	
-	public function calcLowerMeridianTransit($planet, Location $location, \DateTime $dt)
-	{
-		return $this->calcRiseTrans($planet, $location, $dt, SE_CALC_ITRANSIT);
-	}
-	
-	protected function calcRiseTrans($planet, Location $location, \DateTime $dt, $rsmi)
+	protected static function calcRiseTrans($planet, Location $location, \DateTime $dt, $rsmi)
 	{
 		$ret = null;
 		

@@ -5,13 +5,11 @@ namespace AstroZak;
 use AstroZak\DT;
 use AstroZak\Location;
 use AstroZak\Sweph;
+use AstroZak\Planet;
 
 
 class PlanetHours extends \DateTime
 {
-	private static $sequence = array( Sweph::SATURN, Sweph::JUPITER, Sweph::MARS, Sweph::SUN, 
-									  Sweph::VENUS, Sweph::MERCURY, Sweph::MOON);
-	
 	private static $daysPlanets = array( DT::Monday => Sweph::MOON,
 										 DT::Tuesday => Sweph::MARS,
 										 DT::Wednesday => Sweph::MERCURY,
@@ -20,72 +18,53 @@ class PlanetHours extends \DateTime
 										 DT::Saturday => Sweph::SATURN,
 										 DT::Sunday => Sweph::SUN);
 	
-	protected $sweph;
-	protected $timeZone;
-	protected $morningRise;
-	protected $nextMorningRise;
-	protected $set;
-	protected $date;
-	protected $location;
-	
-	public function __construct(Location $location, \DateTime $date)
+	public static function calcDay(Location $location, \DateTime $date)
 	{
-		$this->location = $location;
-		$this->date = clone $date;
-		$this->sweph = new Sweph();
+		$dt = clone $date;
+		$timeZone = $dt->getTimeZone();
+		$dayName = $dt->format("l");
+		$day = DT::getDay($dayName);
+		$hourPlanet = new Planet(self::$daysPlanets[$day]);
+
+		//rise 
+		$dt->setTime(12,0);
+		$morningRise = Sweph::calcRise(Sweph::SUN, $location, $dt);
 		
-		$date->setTime(12,0); // 12:00
-		$this->morningRise = $this->sweph->calcRise(Sweph::SUN, $location, $date);
-		$date->setTime(23,0); // 23:00
-		$this->set = $this->sweph->calcSet(Sweph::SUN, $location, $date);
-		$nextDay = $date->add(new \DateInterval("PT12H")); //11:00 next day
-		$this->nextMorningRise = $this->sweph->calcRise(Sweph::SUN, $location, $nextDay);
+		//set
+		$dt->setTime(23,0);
+		$set = Sweph::calcSet(Sweph::SUN, $location, $dt);
+		
+		//next rise
+		$nextDay = $dt->add(new \DateInterval("PT12H")); //11:00 next day
+		$nextMorningRise = Sweph::calcRise(Sweph::SUN, $location, $nextDay);
+
+		$lightInterval = $morningRise->diff($set);
+		$darkInterval = $set->diff($nextMorningRise);
+
+		$light = self::calcHalfDay($morningRise, $lightInterval, 0, $hourPlanet, $timeZone);
+		$hourPlanet = new Planet(($hourPlanet->getId() + 12) % 7);
+		$dark = self::calcHalfDay($set, $darkInterval, 12, $hourPlanet, $timeZone);
+		return array_merge($light, $dark);
 	}
-	
-	public function getDayHours()
+
+	protected static function calcHalfDay($startDateTime, $interval, $index, $hourPlanet, $timeZone)
 	{
 		$ret = array();
-		$dayName = $this->date->format("l");
-		$day = DT::getDay($dayName);
-		$hourPlanet = self::$daysPlanets[$day];
+		$hourSeconds = (int) ceil(DT::intervalToSeconds($interval) / 12);
+		$hourInterval = DT::secondsToInterval($hourSeconds);
 		
-		$lightIn = $this->morningRise->diff($this->set);
-		$lightHour = (int) ceil(DT::intervalToSeconds($lightIn) / 12);
-		
-		$darkIn = $this->set->diff($this->nextMorningRise);
-		$darkHour = (int) ceil(DT::intervalToSeconds($darkIn) / 12);
-	 
-		//echo "Light Hour: " . $lightHour . "\n";
-		//echo "Dark Hour: " . $darkHour . "\n";
-		
-		$lightHour = DT::secondsToInterval($lightHour);
-		$darkHour = DT::secondsToInterval($darkHour);
-		
-		$dt = clone $this->morningRise;
-		$dt->setTimeZone($this->date->getTimeZone());
-		for($i = 0; $i < 12; $i++)
+		$dt = clone $startDateTime;
+		$dt->setTimeZone($timeZone);
+		for($i = $index; $i < ($index + 12); $i++)
 		{
-			echo DT::str($dt) . " : " . Sweph::planetName($hourPlanet) . "\n";
-			$hourPlanet = $this->nextPlanet($hourPlanet);
-			$dt->add($lightHour);
+			$dtstart = clone $dt;
+			$dt->add($hourInterval);
+			$ret[$i] =  array('period' => new TimePeriod($dtstart, $dt), 'planet' => $hourPlanet);
+			$hourPlanet = $hourPlanet->next();
 		}
-		
-		
-		$dt = clone $this->set;
-		$dt->setTimeZone($this->date->getTimeZone());
-		for($i = 0; $i < 12; $i++)
-		{
-			echo DT::str($dt) . " : " . Sweph::planetName($hourPlanet) . "\n";
-			$hourPlanet = $this->nextPlanet($hourPlanet);
-			$dt->add($darkHour);
-		}
+		return $ret;
+	}
 
-	}
 	
-	protected function nextPlanet($planet)
-	{
-		$pos = array_search($planet, self::$sequence);
-		return ($pos < 6) ? self::$sequence[$pos + 1] : self::$sequence[0]; 
-	}
-	
+
 }
