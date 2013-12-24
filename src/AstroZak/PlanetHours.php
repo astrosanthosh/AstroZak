@@ -42,8 +42,8 @@ class PlanetHours extends \DateTime
 		$darkInterval = $set->diff($nextMorningRise);
 
 		$light = self::calcHalfDay($morningRise, $lightInterval, 0, $hourPlanet, $timeZone);
-		$hourPlanet = new Planet(($hourPlanet->getId() + 12) % 7);
-		$dark = self::calcHalfDay($set, $darkInterval, 12, $hourPlanet, $timeZone);
+		$hourPlanet = $light[11]['planet'];
+		$dark = self::calcHalfDay($set, $darkInterval, 12, $hourPlanet->next(), $timeZone);
 		return array_merge($light, $dark);
 	}
 

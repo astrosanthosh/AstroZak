@@ -62,7 +62,8 @@ class Planet
 	
 	public function next()
 	{
-		$id = ($this->id + 1) % count(self::$sequence);
-		return new self($id);
+		$pos = array_search($this->id, self::$sequence);
+		$pos = ($pos + 1) % count(self::$sequence);
+		return new self(self::$sequence[$pos]);
 	}
 }
