@@ -25,7 +25,7 @@ class DT
 		{
 			return self::$days[$day];
 		}
-		throw new Exception("Incorrect day number");
+		throw new \Exception("Incorrect day number: $day");
 	}
 	
 	public static function getDay($dayName)
@@ -33,7 +33,7 @@ class DT
 		$ret = array_search($dayName, self::$days);
 		if (false === $ret)
 		{
-			throw new Exception("Incorrect day name");
+			throw new \Exception("Incorrect day name $dayName");
 		}
 		return $ret;
 	}

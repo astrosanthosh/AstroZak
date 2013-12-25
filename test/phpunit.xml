@@ -19,6 +19,7 @@
 		<file>DTTest.php</file>
 		<file>PlanetHoursTest.php</file>
 		<file>TimePeriodTest.php</file>
+		<file>HoroscopeTest.php</file>
 	</testsuite>
 </testsuites>
 

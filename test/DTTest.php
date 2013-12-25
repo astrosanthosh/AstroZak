@@ -26,12 +26,30 @@ class DTTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("Wednesday", $ret);
 	}
 
+	/**
+	 * @expectedException Exception
+	 * @excpectedExceptionMessage Incorrect day number: 51
+	 */
+	public function testGetDayNameWrongParam()
+	{
+		$ret = DT::getDayName(51);
+	}
+
 	public function testGetDay()
 	{
 		$ret = DT::getDay("Friday");
 		$this->assertEquals(DT::Friday, $ret);
 	}
-	
+
+	/**
+	 * @expectedException Exception
+	 * @excpectedExceptionMessage Incorrect day name: WrongDay
+	 */
+	public function testGetDayWrongParam()
+	{
+		$ret = DT::getDay("WrongDay");
+	}
+
 	public function testIntervalToSeconds()
 	{
 		$d1 = new \DateTime("2013-12-22 10:00:00", new \DateTimeZone("Europe/Kiev"));

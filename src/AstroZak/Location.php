@@ -18,7 +18,7 @@ class Location
 
 	public function getLat()
 	{
-		return $this->lon;
+		return $this->lat;
 	}
 
 	public function getLon()

@@ -13,7 +13,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		
 		$ret = Sweph::calcRise(Sweph::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
-		$this->assertEquals("2013-12-23 06:43:19 +0200", DT::str($ret));
+		$this->assertEquals("2013-12-23 05:48:18 +0200", DT::str($ret));
 	}
 	
 	public function testCalcSet()
@@ -23,7 +23,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		
 		$ret = Sweph::calcSet(Sweph::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
-		$this->assertEquals("2013-12-23 16:25:03 +0200", DT::str($ret));
+		$this->assertEquals("2013-12-23 15:30:02 +0200", DT::str($ret));
 	}
 
 	public function testCalcUpperMeridianTransit()
@@ -33,7 +33,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		
 		$ret = Sweph::calcUpperMeridianTransit(Sweph::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
-		$this->assertEquals("2013-12-23 11:34:10 +0200", DT::str($ret));
+		$this->assertEquals("2013-12-23 10:39:09 +0200", DT::str($ret));
 	}
 	
 	public function testCalcLowerMeridianTransit()
@@ -43,7 +43,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		
 		$ret = Sweph::calcLowerMeridianTransit(Sweph::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
-		$this->assertEquals("2013-12-22 23:33:55 +0200", DT::str($ret));
+		$this->assertEquals("2013-12-23 22:39:24 +0200", DT::str($ret));
 	}
 	
 	public function testGetNameOfDay()

@@ -22,6 +22,23 @@ class Sweph
 		swe_set_ephe_path($path);
 	}
 
+	public static function calcUt ($julianDay,$bodyId, $flags)
+	{
+		$data = swe_calc_ut($julianDay, $bodyId, $flags);
+		if (! empty($data['serr']))
+		{
+			throw new \Exception("Error in swe_calc_ut: " . $data['serr']);
+		}
+		$ret = array();
+		$ret['longitude'] = $data[0]; 
+		$ret['latitude'] = $data[1]; 
+		$ret['distance'] = $data[2]; 
+		$ret['speedInLong'] = $data[3]; 
+		$ret['speedInLat'] = $data[4];
+		$ret['speedInDist'] = $data[5];
+		return $ret;
+	}
+	
 	public static function calcRise($planet, Location $location, \DateTime $dt)
 	{
 		return self::calcRiseTrans($planet, $location, $dt, SE_CALC_RISE);
