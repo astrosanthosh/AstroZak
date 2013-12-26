@@ -17,6 +17,7 @@ class Sweph
 									self::MARS => "MARS", self::JUPITER => "JUPITER",
 									self::SATURN => "SATURN");
 									
+
 	public static function init($path)
 	{
 		swe_set_ephe_path($path);
@@ -38,6 +39,28 @@ class Sweph
 		$ret['speedInDist'] = $data[5];
 		return $ret;
 	}
+	
+	public static function calcBody($julianDay,$bodyId, $flags = 0)
+	{
+		$flags |= SEFLG_SPEED;
+		$data = self::calcUt($julianDay,$bodyId, $flags);
+		return array($data['longitude'], $data['speedInLong']);
+	}
+	
+	public static function toDecimal($degrees, $minutes, $seconds)
+	{
+		return $degrees + ($minutes/60) + ($seconds/3600);
+	}
+	
+	public static function fromDecimal($value)
+	{
+		$degrees = (int) $value;
+		$value = ($value - $degrees) * 60;
+		$minutes = (int) $value;
+		$seconds = (int) (($value - $minutes) * 60);
+		return array($degrees, $minutes, $seconds);
+	}
+	
 	
 	public static function calcRise($planet, Location $location, \DateTime $dt)
 	{

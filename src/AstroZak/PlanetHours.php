@@ -18,6 +18,9 @@ class PlanetHours extends \DateTime
 										 DT::Saturday => Sweph::SATURN,
 										 DT::Sunday => Sweph::SUN);
 	
+	private static $sequence = array( Sweph::SATURN, Sweph::JUPITER, Sweph::MARS, Sweph::SUN, 
+									  Sweph::VENUS, Sweph::MERCURY, Sweph::MOON);
+
 	public static function calcDay(Location $location, \DateTime $date)
 	{
 		$dt = clone $date;
@@ -42,8 +45,8 @@ class PlanetHours extends \DateTime
 		$darkInterval = $set->diff($nextMorningRise);
 
 		$light = self::calcHalfDay($morningRise, $lightInterval, 0, $hourPlanet, $timeZone);
-		$hourPlanet = $light[11]['planet'];
-		$dark = self::calcHalfDay($set, $darkInterval, 12, $hourPlanet->next(), $timeZone);
+		$hourPlanet =  self::nextPlanetInSequence($light[11]['planet']);
+		$dark = self::calcHalfDay($set, $darkInterval, 12, $hourPlanet, $timeZone);
 		return array_merge($light, $dark);
 	}
 
@@ -60,11 +63,16 @@ class PlanetHours extends \DateTime
 			$dtstart = clone $dt;
 			$dt->add($hourInterval);
 			$ret[$i] =  array('period' => new TimePeriod($dtstart, $dt), 'planet' => $hourPlanet);
-			$hourPlanet = $hourPlanet->next();
+			$hourPlanet = self::nextPlanetInSequence($hourPlanet);
 		}
 		return $ret;
 	}
 
-	
+	protected static function nextPlanetInSequence($planet)
+	{
+		$pos = array_search($planet->getId(), self::$sequence);
+		$pos = ($pos + 1) % count(self::$sequence);
+		return new Planet(self::$sequence[$pos]);
+	}
 
 }

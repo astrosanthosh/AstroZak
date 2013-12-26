@@ -20,12 +20,15 @@ class Horoscope
 		$this->location = clone $location;
 		$this->date = clone $date;
 		$this->julianDay = DT::julianDay($date); 
-		swe_set_topo($location->getLat(), $location->getLon(), $location->getHeight());
 		for ($planet = 0; $planet < 7; $planet++)
 		{
-			$position = Sweph::calcUt($this->julianDay, $planet, SEFLG_SPEED | SEFLG_TRUEPOS);
-			$this->planets[$planet] = new Planet($planet, $position);
+			list($position, $speed) = Sweph::calcBody($this->julianDay, $planet);
+			$this->planets[$planet] = new Planet($planet, $position, $speed);
 		}
 	}
 	
+	public function getPlanets()
+	{
+		return $this->planets;
+	}
 }

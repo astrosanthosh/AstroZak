@@ -16,12 +16,9 @@ class Planet extends SkyObject
 									   Sweph::JUPITER => "JUPITER",
 									   Sweph::SATURN => "SATURN");
 
-	private static $sequence = array( Sweph::SATURN, Sweph::JUPITER, Sweph::MARS, Sweph::SUN, 
-									  Sweph::VENUS, Sweph::MERCURY, Sweph::MOON);
-
 	protected $id;
 	  
-	public function __construct($planet, array $position = array())
+	public function __construct($planet, $position = 0.0, $speed = 0.0)
 	{
 		if (is_numeric($planet))
 		{
@@ -40,7 +37,7 @@ class Planet extends SkyObject
 		{
 			throw new \Exeption("Wrong planet $planet");
 		}
-		parent::__construct($name, $position);
+		parent::__construct($name, $position, $speed);
 	}
 
 	public function getId()
@@ -48,13 +45,11 @@ class Planet extends SkyObject
 		return $this->id;
 	}
 
-	public function next()
+	public function isReversive()
 	{
-		$pos = array_search($this->id, self::$sequence);
-		$pos = ($pos + 1) % count(self::$sequence);
-		return new self(self::$sequence[$pos]);
+		return ($this->speed < 0) ? true : false;
 	}
-
+	
 	protected function getNameById($id)
 	{
 		if (($id < 0) || ($id >= count(self::$names)))

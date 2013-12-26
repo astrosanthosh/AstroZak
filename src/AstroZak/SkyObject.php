@@ -4,32 +4,30 @@ namespace AstroZak;
 
 class SkyObject
 {
-	private static $params = array('longitude', 'latitude', 'distance', 'speedInLong', 'speedInLat', 'speedInDist');
 	protected $name;
-	protected $longitude = 0.0; 
-	protected $latitude = 0.0; 
-	protected $distance = 0.0; 
-	protected $speedInLong = 0.0; 
-	protected $speedInLat = 0.0;
-	protected $speedInDist = 0.0;
+	protected $position; 
+	protected $speed; 
 	  
-	public function __construct($name, array $position)
+	public function __construct($name, $position, $speed)
 	{
 		$this->name = $name;
-		$this->setPosition($position);
+		$this->position = $position;
+		$this->speed = $speed;
 	}
 
-	public function setPosition(array $position)
+	/**
+	 * flat position considering longtitude only
+	 */
+	public function getPosition()
 	{
-		foreach (self::$params as $param)
-		{
-			if (! empty($position[$param]) && is_numeric($position[$param]))
-			{
-				$this->$param = $position[$param];
-			}
-		}
+		return $this->position;
 	}
-
+	
+	public function aboveHorizon()
+	{
+		return ($this->position > 180.0) ? true : false; 
+	}
+	
 	public function getName()
 	{
 		return $this->name;
