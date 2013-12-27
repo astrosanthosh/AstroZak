@@ -8,13 +8,21 @@ use AstroZak\SkyObject;;
 
 class Planet extends SkyObject
 {
-	private static $names = array   (  Sweph::SUN => "SUN", 
-									   Sweph::MOON => "MOON",   
-									   Sweph::MERCURY => "MERCURY", 
-									   Sweph::VENUS => "VENUS",
-									   Sweph::MARS => "MARS", 
-									   Sweph::JUPITER => "JUPITER",
-									   Sweph::SATURN => "SATURN");
+	const SUN = SE_SUN;   //0
+	const MOON = SE_MOON;
+	const MERCURY = SE_MERCURY;
+	const VENUS = SE_VENUS;
+	const MARS = SE_MARS;
+	const JUPITER = SE_JUPITER;
+	const SATURN = SE_SATURN; // 7
+	
+	private static $names = array   (  self::SUN => "SUN", 
+									   self::MOON => "MOON",   
+									   self::MERCURY => "MERCURY", 
+									   self::VENUS => "VENUS",
+									   self::MARS => "MARS", 
+									   self::JUPITER => "JUPITER",
+									   self::SATURN => "SATURN");
 
 	protected $id;
 	  

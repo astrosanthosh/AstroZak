@@ -10,16 +10,16 @@ use AstroZak\Planet;
 
 class PlanetHours extends \DateTime
 {
-	private static $daysPlanets = array( DT::Monday => Sweph::MOON,
-										 DT::Tuesday => Sweph::MARS,
-										 DT::Wednesday => Sweph::MERCURY,
-										 DT::Thursday => Sweph::JUPITER,
-										 DT::Friday => Sweph::VENUS,
-										 DT::Saturday => Sweph::SATURN,
-										 DT::Sunday => Sweph::SUN);
+	private static $daysPlanets = array( DT::Monday => Planet::MOON,
+										 DT::Tuesday => Planet::MARS,
+										 DT::Wednesday => Planet::MERCURY,
+										 DT::Thursday => Planet::JUPITER,
+										 DT::Friday => Planet::VENUS,
+										 DT::Saturday => Planet::SATURN,
+										 DT::Sunday => Planet::SUN);
 	
-	private static $sequence = array( Sweph::SATURN, Sweph::JUPITER, Sweph::MARS, Sweph::SUN, 
-									  Sweph::VENUS, Sweph::MERCURY, Sweph::MOON);
+	private static $sequence = array( Planet::SATURN, Planet::JUPITER, Planet::MARS, Planet::SUN, 
+									  Planet::VENUS, Planet::MERCURY, Planet::MOON);
 
 	public static function calcDay(Location $location, \DateTime $date)
 	{
@@ -31,15 +31,15 @@ class PlanetHours extends \DateTime
 
 		//rise 
 		$dt->setTime(12,0);
-		$morningRise = Sweph::calcRise(Sweph::SUN, $location, $dt);
+		$morningRise = Sweph::calcRise(Planet::SUN, $location, $dt);
 		
 		//set
 		$dt->setTime(23,0);
-		$set = Sweph::calcSet(Sweph::SUN, $location, $dt);
+		$set = Sweph::calcSet(Planet::SUN, $location, $dt);
 		
 		//next rise
 		$nextDay = $dt->add(new \DateInterval("PT12H")); //11:00 next day
-		$nextMorningRise = Sweph::calcRise(Sweph::SUN, $location, $nextDay);
+		$nextMorningRise = Sweph::calcRise(Planet::SUN, $location, $nextDay);
 
 		$lightInterval = $morningRise->diff($set);
 		$darkInterval = $set->diff($nextMorningRise);

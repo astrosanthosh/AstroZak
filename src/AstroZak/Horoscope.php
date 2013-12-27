@@ -31,4 +31,46 @@ class Horoscope
 	{
 		return $this->planets;
 	}
+	
+	public function getPlanet($planetId)
+	{
+		if (isset($this->planets[$planetId]))
+		{
+			return $this->planets[$planetId];
+		}
+		throw new \Exception ("Planet with id = $planetId is absent");
+	}
+	
+	public function getPlanetSign($planet)
+	{
+		$planet = $this->verifyPlanet($planet);
+		$signId = (int) (floor($planet->getPosition() / 30.0));
+		return new Sign($signId);
+	}
+	
+	public function getPlanetSignPosition($planet)
+	{
+		$planet = $this->verifyPlanet($planet);
+		$sign = $this->getPlanetSign($planet);
+		$position = $sign->getPositionInSector($planet->getPosition());
+		return array($sign, $position);
+	}
+	
+	public function getPlanetEssentialStrength($planet)
+	{
+		
+	}
+	
+	protected function verifyPlanet($planet)
+	{
+		if (is_numeric($planet))
+		{
+			$planet = $this->getPlanet($planet);
+		}
+		elseif (! ($planet instanceof Planet))
+		{
+			throw new \Exception("Inclorrect planet: $planet");
+		}
+		return $planet;
+	}
 }

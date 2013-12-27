@@ -4,20 +4,6 @@ namespace AstroZak;
 
 class Sweph
 {
-	const SUN = SE_SUN;
-	const MOON = SE_MOON;
-	const MERCURY = SE_MERCURY;
-	const VENUS = SE_VENUS;
-	const MARS = SE_MARS;
-	const JUPITER = SE_JUPITER;
-	const SATURN = SE_SATURN;
-	
-	private static $planets = array (  self::SUN => "SUN", self::MOON => "MOON",   
-									self::MERCURY => "MERCURY", self::VENUS => "VENUS",
-									self::MARS => "MARS", self::JUPITER => "JUPITER",
-									self::SATURN => "SATURN");
-									
-
 	public static function init($path)
 	{
 		swe_set_ephe_path($path);

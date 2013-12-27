@@ -3,6 +3,7 @@
 use AstroZak\Sweph;
 use AstroZak\DT;;
 use AstroZak\Location;
+use AstroZak\Planet;
 
 class SwephTest extends PHPUnit_Framework_TestCase
 {
@@ -11,7 +12,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		$location = new Location(49.98, 36.23, 100);
 		$dt = new \DateTime("2013-12-22 23:00:00", new \DateTimeZone("Europe/Kiev"));
 		
-		$ret = Sweph::calcRise(Sweph::SUN, $location, $dt);
+		$ret = Sweph::calcRise(Planet::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
 		$this->assertEquals("2013-12-23 05:48:18 +0200", DT::str($ret));
 	}
@@ -21,7 +22,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		$location = new Location(49.98, 36.23, 100);
 		$dt = new \DateTime("2013-12-22 23:00:00", new\ DateTimeZone("Europe/Kiev"));
 		
-		$ret = Sweph::calcSet(Sweph::SUN, $location, $dt);
+		$ret = Sweph::calcSet(Planet::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
 		$this->assertEquals("2013-12-23 15:30:02 +0200", DT::str($ret));
 	}
@@ -31,7 +32,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		$location = new Location(49.98, 36.23, 100);
 		$dt = new \DateTime("2013-12-22 23:00:00", new \DateTimeZone("Europe/Kiev"));
 		
-		$ret = Sweph::calcUpperMeridianTransit(Sweph::SUN, $location, $dt);
+		$ret = Sweph::calcUpperMeridianTransit(Planet::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
 		$this->assertEquals("2013-12-23 10:39:09 +0200", DT::str($ret));
 	}
@@ -41,7 +42,7 @@ class SwephTest extends PHPUnit_Framework_TestCase
 		$location = new Location(49.98, 36.23, 100);
 		$dt = new \DateTime("2013-12-22 23:00:00", new \DateTimeZone("Europe/Kiev"));
 		
-		$ret = Sweph::calcLowerMeridianTransit(Sweph::SUN, $location, $dt);
+		$ret = Sweph::calcLowerMeridianTransit(Planet::SUN, $location, $dt);
 		$ret->setTimeZone(new \DateTimeZone("Europe/Kiev"));
 		$this->assertEquals("2013-12-23 22:39:24 +0200", DT::str($ret));
 	}
