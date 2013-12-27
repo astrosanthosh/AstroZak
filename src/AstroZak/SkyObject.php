@@ -15,6 +15,11 @@ class SkyObject
 		$this->speed = $speed;
 	}
 
+	public function getName()
+	{
+		return $this->name;
+	}
+
 	/**
 	 * flat position considering longtitude only
 	 */
@@ -23,14 +28,14 @@ class SkyObject
 		return $this->position;
 	}
 	
-	public function aboveHorizon()
+	public function getSpeed()
 	{
-		return ($this->position > 180.0) ? true : false; 
+		return $this->speed;
 	}
 	
-	public function getName()
+	public function isReversive()
 	{
-		return $this->name;
+		return ($this->speed < 0) ? true : false;
 	}
 	
 	public function __toString()

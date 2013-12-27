@@ -43,7 +43,7 @@ class Planet extends SkyObject
 		}
 		else
 		{
-			throw new \Exeption("Wrong planet $planet");
+			throw new \Exception("Wrong planet: $planet");
 		}
 		parent::__construct($name, $position, $speed);
 	}
@@ -53,16 +53,11 @@ class Planet extends SkyObject
 		return $this->id;
 	}
 
-	public function isReversive()
-	{
-		return ($this->speed < 0) ? true : false;
-	}
-	
 	protected function getNameById($id)
 	{
 		if (($id < 0) || ($id >= count(self::$names)))
 		{
-			throw new \Exeption("Wrong planet id: $id");
+			throw new \Exception("Wrong planet id: $id");
 		}
 		return self::$names[$id];
 	}
@@ -72,7 +67,7 @@ class Planet extends SkyObject
 		$id = array_search ($name, self::$names);
 		if (false == $id)
 		{
-			throw new \Exeption("Wrong planet name: $name");
+			throw new \Exception("Wrong planet name: $name");
 		}
 		return $id;
 	}

@@ -14,6 +14,16 @@ class SkySector
 		$this->end = $end;
 	}
 	
+	public function getBegin()
+	{
+		return $this->begin;
+	}
+	
+	public function getEnd()
+	{
+		return $this->end;
+	}
+	
 	/**
 	 * Negative return means that position is outside sector
 	 * 
