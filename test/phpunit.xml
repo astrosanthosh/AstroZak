@@ -22,6 +22,7 @@
 		<file>PlanetHoursTest.php</file>
 		<file>TimePeriodTest.php</file>
 		<file>HoroscopeTest.php</file>
+		<file>SignPlanetsTest.php</file>
 	</testsuite>
 </testsuites>
 

@@ -14,7 +14,7 @@ class Planet extends SkyObject
 	const VENUS = SE_VENUS;
 	const MARS = SE_MARS;
 	const JUPITER = SE_JUPITER;
-	const SATURN = SE_SATURN; // 7
+	const SATURN = SE_SATURN; // 6
 	
 	private static $names = array   (  self::SUN => "SUN", 
 									   self::MOON => "MOON",   

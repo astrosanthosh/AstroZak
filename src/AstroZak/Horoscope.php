@@ -40,7 +40,7 @@ class Horoscope
 		}
 		throw new \Exception ("Planet with id = $planetId is absent");
 	}
-	
+	/*
 	public function getPlanetSign($planet)
 	{
 		$planet = $this->verifyPlanet($planet);
@@ -73,4 +73,5 @@ class Horoscope
 		}
 		return $planet;
 	}
+	*/
 }
